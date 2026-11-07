@@ -3,16 +3,12 @@
 @section('title','Add Product')
 
 @section('content')
-     <div class="card">
-          
-        </div> 
-
-        <form method="POST" action="{{ route('products.store') }}">
-         @csrf
-
-        <div class="mb-3">
+   <form action="{{ route('products.store') }}" method="POST">
+    @csrf
+    @method('POST')
+         <div class="mb-3">
             <lable class="form-label" for="name">Name</lable>
-            <input type="text" name="name" class="form-control" value="{{  old('name') }}">
+            <input type="text" name="name" class="form-control"value="{{ old('name') }}">
             @error('name')
                <div class="invalid-feedback d-block">{{ $message }}</div>
             @enderror
@@ -65,4 +61,6 @@
             <a href="{{ route('products.index') }}" class="btn btn-secondary">Cancel</a>
         </form>
 
-     @endsection
+
+
+       @endsection

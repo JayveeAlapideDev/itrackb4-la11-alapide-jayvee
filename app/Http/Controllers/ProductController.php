@@ -60,32 +60,45 @@ class ProductController extends Controller
         ->with('success', 'product added successfully');
     }
     
-    public function show(string $id)
+    public function show(Product $product)
     {
-      $products = Product::findOrFail($id);
-    return view('products.show', compact('products'));
-
+    return view('products.show', compact('product'));
     }
 
     
-    public function edit(string $id)
+    public function edit(Product $product)
     {
-        //
+        $brands = Brand::all();
+
+        return view('products.edit', compact('product', 'brands'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+    public function update(Request $request, Product $product)
+{
+    $validated = $request->validate([
+        // the same rules you wrote in store()
+    ]);
+ 
+    $product->update($validated);
+ 
+    return redirect()->route('products.index');
+}
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Product $product)
     {
-        //
+      
+        $product->delete();
+
+        return redirect()->route('products.index') 
+            ->with('success', 'Product deleted successfully');
+        
+
     }
 }

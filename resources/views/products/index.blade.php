@@ -17,6 +17,7 @@
    <a href="{{ route('products.index') }}">ALL</a> |
 @foreach ($brands as $brand)
    <a href="{{ route('products.index', ['brand_id' => $brand->id]) }}">{{ strtoupper($brand->name) }}</a> |
+  
 @endforeach
 </nav>
 
@@ -38,6 +39,8 @@
             <th>Stock</th>
             <th>Brand</th>
             <th>Package</th>
+            <th>Action</th>
+            
         </tr>
  
         @foreach ($products as $product)
@@ -47,7 +50,16 @@
                 <td>{{ $product['stock'] }}</td>
                 <td>{{ $product->brand->name }}</td>
                 <td>{{ $product['package'] }}</td>
-                
+                <td>
+                    <a href="{{ route('products.edit', $product) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+                    <form action="{{ route('products.destroy', $product) }}" method="POST"
+      onsubmit="return confirm('SIGURADO KA?')">
+    @csrf
+    @method('DELETE')
+    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+</form>
+
+
             </tr>
         @endforeach
     </table>
